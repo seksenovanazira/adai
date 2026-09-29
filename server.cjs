@@ -1,0 +1,3 @@
+const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
+const files=new Set(['index.html','styles.css','app.js','logic.js','hr.js']);
+http.createServer((req,res)=>{const file=req.url.split('?')[0].slice(1)||'index.html';if(!files.has(file)){res.writeHead(404);return res.end('Not found');}res.setHeader('Content-Type',file.endsWith('.css')?'text/css; charset=utf-8':file.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8');fs.createReadStream(path.join(__dirname,file)).pipe(res);}).listen(8087,'127.0.0.1',()=>console.log('Open http://127.0.0.1:8087'));
